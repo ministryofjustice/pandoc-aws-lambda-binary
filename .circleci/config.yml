@@ -1,0 +1,33 @@
+version: 2.1
+
+workflows:
+  path_to_live:
+    jobs:
+      - pandoc-build/build_pandoc:
+          filters:
+            branches:
+              only: [ master ]
+#      - push_to_s3:
+orbs:
+  pandoc-build:
+    commands:
+      install_aws_cli:
+        steps:
+          - run:
+              name: Install AWS CLI
+              command: sudo pip3 install awscli --upgrade
+    executors:
+      python:
+        docker: [image: circleci/python]
+      lamci:
+        docker: [image: lambci/lambda-base-2:build]
+
+    jobs:
+      build_pandoc:
+        executor: lamci
+        steps:
+          - checkout
+          - run:
+              name: build pandoc
+              command: |
+                make -f Makefile_Pandoc
