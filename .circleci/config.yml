@@ -33,4 +33,4 @@ orbs:
           - run:
               name: build pandoc
               command: |
-                make -f Makefile_Pandoc
+                make all
