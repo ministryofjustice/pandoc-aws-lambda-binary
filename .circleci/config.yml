@@ -3,7 +3,7 @@ version: 2.1
 workflows:
   path_to_live:
     jobs:
-      - pandoc-build/build_pandoc:
+      - pandoc-build/build_pandoc
 #          filters:
 #            branches:
 #              only: [ master ]
@@ -34,3 +34,17 @@ orbs:
               name: build pandoc
               command: |
                 make all -f ./Makefile_Pandoc
+          - persist_to_workspace:
+              root: /tmp
+              paths:
+                - /opt/bin
+      push_to_s3:
+        executor: python
+        steps:
+          - run:
+              name: zip binary
+              command: |
+                cd /tmp/opt/bin
+                zip -r pandoc_binary.zip pandoc
+                ls -al
+
