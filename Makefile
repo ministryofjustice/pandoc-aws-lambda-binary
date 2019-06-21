@@ -21,8 +21,7 @@ bash:
 	$(DOCKER) $(MOUNTS) --entrypoint /bin/bash -t $(DOCKER_IMAGE)
 
 all: build result cache 
-	$(DOCKER) $(MOUNTS) --entrypoint /usr/bin/make -t $(DOCKER_IMAGE) TARGET_DIR=$(TARGET) -f /Makefile_Pandoc $@
-
+	$(DOCKER) $(MOUNTS) --entrypoint /usr/bin/make -t $(DOCKER_IMAGE) TARGET_DIR=$(TARGET) -f /root/project/Makefile_Pandoc $@
 
 STACK_NAME ?= pandoc-layer 
 
