@@ -4,9 +4,9 @@ workflows:
   path_to_live:
     jobs:
       - pandoc-build/build_pandoc:
-          filters:
-            branches:
-              only: [ master ]
+#          filters:
+#            branches:
+#              only: [ master ]
 #      - push_to_s3:
 orbs:
   pandoc-build:
@@ -33,4 +33,4 @@ orbs:
           - run:
               name: build pandoc
               command: |
-                make -f Makefile_Pandoc
+                make all -f ./Makefile_Pandoc
