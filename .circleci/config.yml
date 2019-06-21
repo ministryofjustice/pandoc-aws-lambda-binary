@@ -3,7 +3,7 @@ version: 2.1
 workflows:
   path_to_live:
     jobs:
-      - pandoc-build/build_pandoc:
+      - pandoc-build/build_pandoc
 #          filters:
 #            branches:
 #              only: [ master ]
