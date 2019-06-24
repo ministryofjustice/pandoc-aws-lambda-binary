@@ -3,10 +3,10 @@ version: 2.1
 workflows:
   path_to_live:
     jobs:
-      - pandoc-build/build_pandoc:
-          filters:
-            branches:
-              only: [ master ]
+      - pandoc-build/build_pandoc
+#          filters:
+#            branches:
+#              only: [ master ]
 #      - push_to_s3:
 orbs:
   pandoc-build:
@@ -33,4 +33,4 @@ orbs:
           - run:
               name: build pandoc
               command: |
-                make all
+                make all -f ./Makefile_Pandoc
