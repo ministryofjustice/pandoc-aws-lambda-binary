@@ -5,9 +5,9 @@ workflows:
     jobs:
       - pandoc-build/build_pandoc:
           name: build_pandoc
-#      - pandoc-build/push_to_s3:
-#          name: push_to_s3
-#          requires: [build_pandoc]
+      - pandoc-build/push_to_s3:
+          name: push_to_s3
+          requires: [build_pandoc]
 orbs:
   pandoc-build:
     commands:
