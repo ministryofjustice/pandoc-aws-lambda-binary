@@ -35,7 +35,7 @@ orbs:
               command: |
                 make all -f ./Makefile_Pandoc
           - persist_to_workspace:
-              root: /tmp
+              root: /
               paths:
                 - /opt/bin
       push_to_s3:
