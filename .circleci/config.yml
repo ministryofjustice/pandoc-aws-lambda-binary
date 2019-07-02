@@ -6,7 +6,7 @@ workflows:
       - pandoc-build/build_pandoc:
           name: build_pandoc
       - pandoc-build/push_to_s3:
-          name: pus_to_s3
+          name: push_to_s3
           requires: [build_pandoc]
 orbs:
   pandoc-build:
@@ -32,8 +32,10 @@ orbs:
               docker_layer_caching: false
           - run:
               name: build pandoc
+              no_output_timeout: 30m
               command: |
-                make all -f ./Makefile_Pandoc
+                yum install sudo --assumeyes
+                sudo make all -f ./Makefile_Pandoc
           - persist_to_workspace:
               root: /
               paths:

@@ -15,14 +15,14 @@ CACHE_DIR=$(PROJECT_ROOT)build/cache
 GHC_SOURCE=ghc-$(GHC_VERSION)-x86_64-centos70-linux.tar.xz
 
 /etc/yum.repos.d/epel.repo:
-	curl -LO https://dl.fedoraproject.org/pub/epel/epel-release-$(EPEL_VERSION).noarch.rpm
-	rpm -i epel-release-$(EPEL_VERSION).noarch.rpm
+	sudo curl -LO https://dl.fedoraproject.org/pub/epel/epel-release-$(EPEL_VERSION).noarch.rpm
+	sudo rpm -i epel-release-$(EPEL_VERSION).noarch.rpm
 
 /usr/bin/ghc: /etc/yum.repos.d/epel.repo
-	yum install ghc -y
+	sudo yum install ghc -y
 
 $(GHC_SOURCE):
-	curl -LO https://downloads.haskell.org/~ghc/$(GHC_VERSION)/$(GHC_SOURCE)
+	sudo curl -LO https://downloads.haskell.org/~ghc/$(GHC_VERSION)/$(GHC_SOURCE)
 
 	
 /usr/local/bin/ghc: $(GHC_SOURCE) /usr/bin/ghc
@@ -42,7 +42,7 @@ $(CABAL_SOURCE):
 
 /usr/local/bin/cabal: $(CABAL_SOURCE) /usr/local/bin/ghc
 	tar xf $(CABAL_SOURCE)
-	mv cabal /usr/local/bin
+	sudo mv cabal /usr/local/bin
 
 /root/.cabal/packages/hackage.haskell.org: /usr/local/bin/cabal
 	cabal update
@@ -54,7 +54,7 @@ cabal.sandbox.config: /root/.cabal/packages/hackage.haskell.org
 
 
 bin/pandoc: cabal.sandbox.config
-	cabal install --disable-documentation pandoc -fembed_data_files 
+	cabal install --disable-documentation pandoc -fembed_data_files
 
 $(TARGET_DIR)bin/pandoc: bin/pandoc
 	mkdir -p $(TARGET_DIR)bin
