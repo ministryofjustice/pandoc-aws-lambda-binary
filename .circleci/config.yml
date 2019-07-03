@@ -36,18 +36,17 @@ orbs:
               command: |
                 make all -f ./Makefile_Pandoc
           - persist_to_workspace:
-              root: /opt/
+              root: /opt
               paths:
-                - bin/
+                - bin
       push_to_s3:
         executor: python
         steps:
           - attach_workspace:
-                at: /opt/bin
+                at: .
           - run:
               name: zip binary
               command: |
-                cd /opt/bin
                 zip -r pandoc_binary.zip pandoc
                 ls -al
 
