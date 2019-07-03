@@ -36,9 +36,9 @@ orbs:
               command: |
                 make all -f ./Makefile_Pandoc
           - persist_to_workspace:
-              root: /opt
+              root: bin
               paths:
-                - bin
+                - pandoc
       push_to_s3:
         executor: python
         steps:
