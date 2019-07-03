@@ -3,11 +3,8 @@ version: 2.1
 workflows:
   path_to_live:
     jobs:
-      - pandoc-build/build_pandoc:
-          name: build_pandoc
       - pandoc-build/push_to_s3:
           name: push_to_s3
-          requires: [build_pandoc]
 orbs:
   aws-s3: circleci/aws-s3@1.0.11
   pandoc-build:
@@ -20,33 +17,20 @@ orbs:
     executors:
       python:
         docker: [image: circleci/python]
-      lamci:
-        docker: [image: lambci/lambda-base-2:build]
 
     jobs:
-      build_pandoc:
-        executor: lamci
-        steps:
-          - checkout
-          - setup_remote_docker:
-              version: 18.06.0-ce
-              docker_layer_caching: false
-          - run:
-              no_output_timeout: 30m
-              command: |
-                make all -f ./Makefile_Pandoc
-          - persist_to_workspace:
-              root: bin
-              paths:
-                - pandoc
       push_to_s3:
         executor: python
         steps:
           - attach_workspace:
                 at: .
           - run:
-              name: zip binary
+              name: curl pandoc from github
               command: |
-                zip -r pandoc_binary.zip pandoc
+                curl -s https://api.github.com/repos/jgm/pandoc/releases/latest \
+                | grep "browser_download_url.*tar.gz" \
+                | cut -d : -f 2,3 \
+                | tr -d \" \
+                | wget -qi -
                 ls -al
 
