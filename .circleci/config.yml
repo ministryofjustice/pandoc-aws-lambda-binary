@@ -35,10 +35,12 @@ orbs:
               no_output_timeout: 30m
               command: |
                 make all -f ./Makefile_Pandoc
+
+                mv /opt/bin/pandoc /tmp/workspace/pandoc
           - persist_to_workspace:
-              root: /opt/
+              root: /tmp/
               paths:
-                - bin/
+                - workspace/
       push_to_s3:
         executor: python
         steps:
@@ -47,7 +49,7 @@ orbs:
           - run:
               name: zip binary
               command: |
-                cd /opt/bin
+                cd /tmp/workspace
                 zip -r pandoc_binary.zip pandoc
                 ls -al
 
