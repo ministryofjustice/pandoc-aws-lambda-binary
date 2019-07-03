@@ -22,8 +22,6 @@ orbs:
       push_to_s3:
         executor: python
         steps:
-          - attach_workspace:
-                at: .
           - run:
               name: curl pandoc from github
               command: |
@@ -32,5 +30,8 @@ orbs:
                 | cut -d : -f 2,3 \
                 | tr -d \" \
                 | wget -qi -
-                ls -al
 
+                tar xvzf pandoc-*.tar.gz
+                cd pandoc-*/bin
+                zip -r pandoc_binary.zip pandoc
+                ls -al
